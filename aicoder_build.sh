@@ -4,15 +4,14 @@ set -euo pipefail
 PROJECT="${AICODER_PROJECT:-aicoder}"
 PROFILE="${AICODER_PROFILE:-aicoder}"
 BASE_IMAGE="${AICODER_BASE_IMAGE:-images:debian/trixie/cloud}"
-IMAGE_ALIAS="${AICODER_IMAGE_ALIAS:-aicoder-debian-trixie}"
+IMAGE_ALIAS="${AICODER_IMAGE:-aicoder-debian-trixie}"
 BUILDER_NAME="${AICODER_BUILDER_NAME:-aicoder-builder}"
 
 SSH_USER="${AICODER_SSH_USER:-coder}"
 SSH_PUBKEY_FILE="${AICODER_SSH_PUBKEY_FILE:-$HOME/.ssh/id_ed25519.pub}"
 SSH_PUBKEY=""
 
-INSTALL_OPENCODE="${AICODER_INSTALL_OPENCODE:-1}"
-PACKAGES="${AICODER_PACKAGES:-curl ca-certificates wget git vim jq htop tmux screen ripgrep fd-find unzip zip openssh-server sudo build-essential python3 python3-pip python3-venv}"
+PACKAGES="${AICODER_PACKAGES:-curl ca-certificates wget git vim jq htop tmux screen ripgrep fd-find unzip zip openssh-server sudo build-essential python3 python3-pip python3-venv dnsutils}"
 
 command -v lxc >/dev/null || { echo "Missing lxc command"; exit 1; }
 command -v jq >/dev/null || { echo "Missing jq command"; exit 1; }
@@ -88,9 +87,7 @@ export COLORTERM=\${COLORTERM:-truecolor}
 export EDITOR=\${EDITOR:-vim}
 PROFILEEOF
 
-if [[ '${INSTALL_OPENCODE}' == '1' ]]; then
-  sudo -u $SSH_USER bash -c 'curl -fsSL https://opencode.ai/install | bash'
-fi
+sudo -u $SSH_USER bash -c 'curl -fsSL https://opencode.ai/install | bash'
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
