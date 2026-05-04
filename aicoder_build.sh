@@ -12,7 +12,7 @@ SSH_PUBKEY_FILE="${AICODER_SSH_PUBKEY_FILE:-$HOME/.ssh/id_ed25519.pub}"
 SSH_PUBKEY=""
 
 INSTALL_OPENCODE="${AICODER_INSTALL_OPENCODE:-1}"
-PACKAGES="${AICODER_PACKAGES:-curl ca-certificates wget git vim jq htop tmux screen ripgrep fd-find unzip zip openssh-server sudo build-essential python3 python3-pip python3-venv nodejs npm}"
+PACKAGES="${AICODER_PACKAGES:-curl ca-certificates wget git vim jq htop tmux screen ripgrep fd-find unzip zip openssh-server sudo build-essential python3 python3-pip python3-venv}"
 
 command -v lxc >/dev/null || { echo "Missing lxc command"; exit 1; }
 command -v jq >/dev/null || { echo "Missing jq command"; exit 1; }

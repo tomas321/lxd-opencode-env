@@ -7,10 +7,8 @@ BRIDGE="${AICODER_BRIDGE:-aicoderbr0}"
 IMAGE="${AICODER_IMAGE:-aicoder-debian-trixie}"
 NAME_PREFIX="${AICODER_NAME_PREFIX:-aicoder}"
 CPUS="${AICODER_CPUS:-4}"
-MEMORY="${AICODER_MEMORY:-8GiB}"
-DISK="${AICODER_DISK:-40GiB}"
-STATIC_RANDOM_IP="${AICODER_STATIC_RANDOM_IP:-1}"
-UPDATE_HOSTS="${AICODER_UPDATE_HOSTS:-1}"
+MEMORY="${AICODER_MEMORY:-4GiB}"
+DISK="${AICODER_DISK:-10GiB}"
 HOSTS_FILE="${AICODER_HOSTS_FILE:-/etc/hosts}"
 SSH_USER="${AICODER_SSH_USER:-coder}"
 
@@ -115,7 +113,6 @@ update_hosts() {
   local ip="$1"
   local host="$2"
 
-  [[ "$UPDATE_HOSTS" == "1" ]] || return 0
   [[ -n "$ip" ]] || return 0
 
   if grep -Eq "[[:space:]]${host}([[:space:]]|\$)" "$HOSTS_FILE"; then
@@ -127,10 +124,8 @@ update_hosts() {
 
 STATIC_IP=""
 
-if [[ "$STATIC_RANDOM_IP" == "1" ]]; then
-  BRIDGE_CIDR="$(get_bridge_cidr)"
-  STATIC_IP="$(pick_free_ip "$BRIDGE_CIDR")"
-fi
+BRIDGE_CIDR="$(get_bridge_cidr)"
+STATIC_IP="$(pick_free_ip "$BRIDGE_CIDR")"
 
 lxc project switch "$PROJECT" >/dev/null
 
